@@ -4,26 +4,20 @@
 template<typename T, int size>
 class TPQueue {
  private:
-    T arr[1000];
-    int begin, end;
-
+  T a[size] = {0};
+  int first, last;
  public:
-    TPQueue() :begin(0), end(0) {}
-    void push(T value) {
-        int temp = end++;
-        bool flag = true;
-        while (flag) {
-            if ((begin <= --temp) && (value.prior > arr[temp % size].prior)) {
-                arr[(temp + 1) % size] = arr[temp % size];
-            } else {
-                flag = false;
-            }
-        }
-        arr[(temp + 1) % size] = value;
+  void push(T x) {
+    int n = last;
+    for (; (n >= first) && a[n % size].prior < x.prior; --n) {
+      a[(n + 1) % size] = a[n % size];
     }
-    T pop() {
-        return arr[(begin++) % size];
-    }
+    a[(n + 1) % size] = x;
+    ++last;
+  }
+  T pop() {
+    return a[(first++) % size];
+  }
 };
 struct SYM {
   char ch;
