@@ -1,25 +1,29 @@
 // Copyright 2022 NNTU-CS
 #ifndef INCLUDE_TPQUEUE_H_
 #define INCLUDE_TPQUEUE_H_
-
-template<typename T, int size>
+template <typename T, int Size>
 class TPQueue {
  private:
-  T arr[100];
-  int ft, lt;
+  T a[Size];
+  int v = 0;
+
  public:
-  TPQueue() : ft(0), lt(0) {}
-  void push(T p) {
-    int znach = lt++;
-    while ((--znach >= ft) && (arr[znach % size].prior < p.prior)) {
-      arr[(znach + 1) % size] = arr[znach % size];
-    }
-    arr[(znach + 1) % size] = p;
+  void push(T item) {
+  if (v>= Size) throw "full";
+  for (int i = v++; i >= 0; i--)
+  if ((i > 0) && (a[i - 1].prior >= item.prior)) {
+  a[i] = a[i - 1];
+  } else {
+  a[i] = item;
+  break;
+  }
   }
   T pop() {
-    return arr[(ft++) % size];
+  if (v <= 0) throw "empty";
+  return a[--v];
   }
 };
+
 struct SYM {
   char ch;
   int prior;
